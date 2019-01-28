@@ -1,0 +1,23 @@
+# Sudo required anytime we are making use of Docker
+
+sudo: required
+
+services:
+  - docker 
+  # Travis CI is going to automatically install a copy of docker into our little running conatiner
+
+  # Before our test is ran or deploy
+berfore_install:
+  - docker build -t gja8672/docker-react -f Dockerfile.dev .
+
+# Contains all the commands that need to be executed
+# to actually run out test suite 
+
+# Any time we run our test suite on travis CI it is going to assume that our test suite runs 
+# and then exists automatically and then it essentially says OK either successfully ran all tests
+# or something wrong occured
+
+script:
+  - docker run gja8672/docker-react npm run test -- --coverage
+   
+
