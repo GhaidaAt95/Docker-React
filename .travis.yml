@@ -20,4 +20,47 @@ before_install:
 script:
   - docker run gja8672/docker-react npm run test -- --coverage
    
+  
+### Deploying inyo Elastic BeanStalk
+deploy:
+  #1)  Who is the provider
+  provider: elasticbeanstalk
+  # Travis CI comes preconfigured to deploy our application into a handful of 
+  # different providers or hosting providers such as AWS or Digital Ocean , ...
+  
+  #2) Region
+  region: "us-east-2"
+  # Region where the elastic beanstalk instance is created
 
+  #3) Name of the App = Name of the Elastic bean stalk docker-react
+  app: "docker-react"
+
+  #4) Enviroment Name
+  env: DockerReact-env
+
+  #5) Bucket_Name 
+  bucket_name: "elasticbeanstalk-us-east-2-436404643050"
+  # When travis decides to deploy your codebase its going to take 
+  # all of the files inside your github repo -> Zip them all up into one
+  # single file --> Copy to S3-Bucket
+  # Then it is going to poke at elastic beanstalk and say hey I just uploaded
+  # this new zip file use that to redeploy your application
+
+  #6) Bucket_Path 
+  #This Bucket gets reused for all of the different elastic beanstalk 
+  # enviroments that you create. 
+  # By default the bucket path that your are going to use is going to be 
+  # the exact name as the app name
+  bucket_path: "docker-react"
+
+  #6) Only deploy when a change is pushed to the master pranch
+  on: 
+    branch: master
+
+  # Set of API keys that are going to give access to our AWS account 
+  # over to Travis CI
+
+  # We wont put our keys for the public, we will utilize tavisCi feature env. secret
+  access_key_id: $AWS_ACESS_KEY
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
