@@ -31,4 +31,3 @@ COPY --from=builder /app/build /usr/share/nginx/html
 
 # Default command for nginx is start nginx so we dont have to specifically give a command
 
-###test
